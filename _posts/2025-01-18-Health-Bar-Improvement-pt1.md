@@ -1,8 +1,8 @@
 ---
 title: "Health Bar Improvement, pt. 1"
-date: 2025-01-19 19:00:00 +0800
-author_id: null
-categories: [tecnical, ui]
+date: 2025-01-18 19:00:00 +0800
+author: null
+categories: [tecnical, animation]
 tag: [code, lilyfantasia]
 ---
 

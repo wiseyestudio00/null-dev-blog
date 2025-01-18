@@ -46,6 +46,4 @@ I have also participated in other writing activities......but I am keeping them 
 I also like playing video games, although my time often run short. My favoriate game from 2022 was Inscryption.
 
 # That's it!
-That's enough about me! Honestly, I don't think there is much to talk about myself. I am a boring person. I don't really have a life besides creating games. Unfortunately, what I create is probably more interesting than who I am.
-
-In the next dev-blog, I will start talking about Health-Bar. Go read that instead! Bye bye!
+That's enough about me! Honestly, I don't think there is much to talk about myself. I am a boring person. I don't really have a life besides creating games. Unfortunately, what I create is probably more interesting than who I am. Just go read some recent posts to see if I am in my schizo-period or hyper-productive period! Bye bye!
