@@ -278,6 +278,6 @@ What’s worse, is that the execution’s orders CAN be different in Build and i
 
 I choose to initialize the health bar explicitly. I choose to be here. I won’t let Unity be in control of me. I don’t trust it. It will betray me. I reject its evil whispering. The temptation is strong, but I must be stronger. I will be in control of my own fate.
 
-# Okay enough yapping can we start improving now?
+# Okay enough talking can we start improving now?
 
-Alright, enough yapping. In the next blog, we will finally improve the new health bar by implementing some common health bar features!
+Alright, in the next blog, we will finally improve the new health bar by implementing some common health bar features!
