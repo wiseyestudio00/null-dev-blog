@@ -21,10 +21,6 @@ tagline: Follow NULL on the path of a thousand pain! # it will display as the su
 description: >- # used by seo meta and the atom feed
   Crazy Hamburger, Green Crazy Hamburger
 
-languages: ["en", "jp", "sc", "tc"]
-default_lang: "en"
-exclude_from_localization: ["javascript", "images", "css", "public", "sitemap"]
-parallel_localization: true
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: "https://wiseyestudio00.github.io"
