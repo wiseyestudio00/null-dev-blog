@@ -4,6 +4,7 @@ date: 2025-01-18 19:00:00 +0800
 author: null_id
 categories: [tecnical, animation]
 tag: [code, lilyfantasia]
+media_subpath: /assets/health-bar-improvement-part-1/
 ---
 
 # Introduction
@@ -24,11 +25,11 @@ However, if you aren’t a programmer at all, and just want to see the new healt
 
 First of all, let’s see how the health bar in action looks now.
 
-{% include embed/video.html src='/assets/health-bar-improvement-part-1/healthbar.mp4' %}
+{% include embed/video.html src='healthbar.mp4' %}
 
 How it’s structured as a prefab:
 
-![health bar prefab](/assets/health-bar-improvement-part-1/healthbar_prefab.png)
+![health bar prefab](healthbar_prefab.png)
 
 - Background: contains the fire effect, which is an image with a special shader.
 - Character: just the image of the main character (he really needs to relax)
@@ -38,9 +39,9 @@ How it’s structured as a prefab:
 
 Worth noting that Bar’s Image Type is set to Filled, so we can just use its filledAmount property to control the width of the heath bar. 
 
-![image.png](/assets/health-bar-improvement-part-1/fillamount_1.png)
+![image.png](fillamount_1.png)
 
-![image.png](/assets/health-bar-improvement-part-1/fillamount_2.png)
+![image.png](fillamount_2.png)
 
 # Waiter, waiter, serve me the Code
 
