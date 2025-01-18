@@ -1,5 +1,6 @@
 ---
 title: "Health Bar Improvement, pt. 1"
+lang: en
 date: 2025-01-18 19:00:00 +0800
 author: null_id
 categories: [tecnical, animation]
