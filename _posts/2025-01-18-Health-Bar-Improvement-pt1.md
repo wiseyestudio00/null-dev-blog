@@ -1,5 +1,5 @@
 ---
-title: "Health Bar Improvement, pt. 1"
+title: "Lily Fantasia / Health Bar Improvement, pt. 1"
 date: 2025-01-18 19:00:00 +0800
 author: null_id
 categories: [tecnical, animation]
@@ -184,7 +184,7 @@ healthBarDisplay.SetName("Will to Battle");
 healthBarDisplay.SetNormalizedHealth(1f);
 ```
 
-## FAQ
+## Answering Questions
 
 I think a junior dev would have the following questions:
 
