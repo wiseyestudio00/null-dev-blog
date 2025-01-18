@@ -1,7 +1,12 @@
 ---
 title: "Health Bar Improvement, pt. 1"
-date: 2025-01-13
+date: 2025-01-19 19:00:00 +0800
+author_id: null
+categories: [tecnical, ui]
+tag: [code, lilyfantasia]
 ---
+
+# Introduction
 
 The goal of Lily Fantasia has always been to combine the Action RPG genre with rhythm games. I will probably dig into why I want this in the future. There are so many things and design choices that are worth their own discussion, and I can’t fit them all in the same blog.
 
@@ -19,7 +24,7 @@ However, if you aren’t a programmer at all, and just want to see the new healt
 
 First of all, let’s see how the health bar in action looks now.
 
-<video src="/assets/health-bar-improvement-part-1/healthbar.mp4" controls="controls" style="max-width: 730px;"></video>
+{% include embed/video.html src='/assets/health-bar-improvement-part-1/healthbar.mp4' %}
 
 How it’s structured as a prefab:
 
