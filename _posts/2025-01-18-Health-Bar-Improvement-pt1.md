@@ -4,7 +4,7 @@ date: 2025-01-18 19:00:00 +0800
 author: null_id
 categories: [tecnical, animation]
 tag: [code, lilyfantasia]
-media_subpath: /assets/_posts/health-bar-improvement-part-1/
+media_subpath: /assets/posts/health-bar-improvement-part-1/
 ---
 
 # Introduction
