@@ -63,7 +63,9 @@ We do something similiar to the Color, which lerps between Red and White. What's
 # What do we want?
 I want to start by seeing what a normal Action RPG's health bar would behave. Where else to start but the best rhythm game from 2017: Sekiro: Shadows Die Twice?
 
-{% include embed/youtube.html id='mLdvbW9WdcI?t=1475' %}
+https://youtu.be/mLdvbW9WdcI?t=3208
+
+(Take a look at the enemy's health bar.)
 
 Okay, so this health bar actually has 2 layers. A Red Layer on top, which is the actual health, and a White Layer under the Red Layer. When Sekiro takes damage, Red Layer is immediately changed to the new health, but the White Layer stays at the original health for a while, before decreasing to the new health.
 
