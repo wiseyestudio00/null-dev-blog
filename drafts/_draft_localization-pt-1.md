@@ -1,3 +1,12 @@
+---
+title: "Lily Fantasia / Localization, pt. 1"
+date: 2025-01-18 19:00:00 +0800
+author: null_id
+categories: [tecnical, animation]
+tag: [code, lilyfantasia]
+media_subpath: /assets/posts/localization-pt-1/
+---
+
 I am a perfectionist, or I should say I try to be one. However, as the saying goes, the cost to achieve perfection is infinite. So in reality I don't really strike for perfection, I just hyperfixate on the 20% little details that don't matter for 99% of the playerbase while leaving 80% of really important issues unfixed.
 
 Anyway, let's see how I hyperfixate on some translations and wordplay in the game, so far.
@@ -19,12 +28,21 @@ In the story, the Wolfman is the second kind. Obviously, Werewolf won't work bec
 # Puns
 Are are some puns in the story, especially in the character's names department. Usually, I am terrible at naming characters, and often fallback to generic names. However, this time I did actually spend time figuring some names out.
 
-Most notable is Main Character's name, 鍵太 比亞野 Kenji Hiano. Of course, 比亞野 (Hiano) is a pun for piano. However, another pun that was lost in the English translation was 鍵太, which literally translate something like "keys (as in the keys on the piano)-taro."
+Lily's name also has a pun in it. Her full name (never mentioned in game) is Lilith Itera Batonné. This one is much easier to explain: Batonné as in Baton, as in the [baton](https://en.wikipedia.org/wiki/Baton_(conducting)) that conductors use.
+
+The Main Character's name  is 鍵太 比亞野 Kenji Hiano. 比亞野 (Hiano) is a pun for piano. However, another pun that was lost in the English translation was 鍵太, which literally translate something like "keys (as in the keys on the piano)-taro."
 
 There will be one other character who has a similiar pun in their name.
 
 # Graphics
-This category I actually did not have much input.
+This category I actually did not have much input. However, one trouble that we did have was creating the logo of the game.
+
+First, our graphic and UI designer helped created the original English logo.
+
+I actually thought it may be okay to use the logo for all languages. After all, if I were to localize the logo for each version of the game......It will be more work, such as having to make sure the interfaces all display correctly in all languages. However, our fan Andreko helped created the Chinese version of the logo as below.
+
+
+It looks great, and by this time, we have contracted with our publisher 
 
 # Conclusion
 Yep, localization is pretty hard. Who could have known? For each language supported, it's like I am having 1.5x the work to do! I hate this! We should have all adopted to use Esperanto when we had the chance!
