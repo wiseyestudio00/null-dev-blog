@@ -7,7 +7,7 @@ tag: [code, lilyfantasia]
 media_subpath: /assets/posts/health-bar-improvement-part-2/
 ---
 
-# Preface
+# To know thyself...
 One hard truth I learned about myself is that, most of the time, I think I know what I want, but more often than not I actually only *FEEL like I know what I want*.
 
 We should really start by figuring out what the current Health Bar is lacking here first. However, in order to do that, we need to see what it is doing NOW.
