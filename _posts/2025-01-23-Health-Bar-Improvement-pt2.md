@@ -1,6 +1,6 @@
 ---
 title: "Lily Fantasia / Health Bar Improvement, pt. 2"
-date: 2025-01-24 19:00:00 +0800
+date: 2025-01-23 19:00:00 +0800
 author: null_id
 categories: [tecnical, animation]
 tag: [code, lilyfantasia]
