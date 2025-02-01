@@ -1,6 +1,6 @@
 ---
 title: "Lily Fantasia / Localization, pt. 1"
-date: 2025-01-18 19:00:00 +0800
+date: 2025-02-01 19:00:00 +0800
 author: null_id
 categories: [localization]
 tag: [lilyfantasia]
@@ -14,7 +14,7 @@ As you already knew, I prided myself to be the Best Spaghetti Eater in town. The
 
 When I did go, I was always the only customer who went alone. The waiter (with a slight hint of disgust) would seat me somewhere close to the window where the tables are small. I would order the same set of soup, salad, dessert and Spaghetti for myself, which would be the French Onion Soup, Caeser Salad, their home-made Pudding, and the White Wine Clam Pasta. The choices may seem basic, but of all the other different combinations of Soup, Salad, Dessert, and Spaghetti, I knew for certain this was the best combination. So I would go 1 outta 3 days, and order the same set. I knew I was the Best Spaghetti Eater in town.
 
-However, last weekend, I went alone as usual. I got seated to the windows as usual. I ordered my set, and stared out of the window to look cool. It truly felt so good being the Best Spaghetti Eater in town.
+Things changed last weekend, when I went alone as usual. I got seated to the windows as usual. I ordered my set, and stared out of the window to look cool. It truly felt so good being the Best Spaghetti Eater in town.
 
 That was when another man walked into the restaurant. I looked to the door in disbelief. The man was dressed better, looked better, and was overall the better social man than I was. I was in ultimate unease.
 
@@ -84,11 +84,29 @@ This category I actually did not have much input. However, one trouble that we d
 
 First, our graphic and UI designer helped created the original English logo.
 
+![en logo](Logo_LilyFantasia_EN.png)
+
 I actually thought it may be okay to use the logo for all languages. After all, if I were to localize the logo for each version of the game......It will be more work, such as having to make sure the interfaces all display correctly in all languages. However, our fan Andreko helped created the Chinese version of the logo as below.
 
-It looks great, and by this time, we have contracted with our publisher 
+![tc logo](Logo_LilyFantasia_TC.png)
+
+It looks great, and by this time, we have contracted with our publisher, who provided the Japanese logo.
+
+![jp logo old](Logo_LilyFantasia_JP_Old.png)
+
+You may notice something isn't quite right with this logo if you have seen the real logo in game. However, can you spot what's different? I will give you 3 seconds to find the difference!
+
+3...2...1...
+
+...........Did you actually wait 3 seconds? Or did you just skim through it, not even attempting to find the difference? I am disappointed in you if you didn't. Just saying.
+
+The difference is that one of the sia is filled in the final version.
+
+![jp logo](Logo_LilyFantasia_JP.png)
+
+I thought it would make sense if one of the sia is filled, as it symoblizes the Black and the White Notes in game, so I suggested it to the publisher, who made the changes accordingly.
 
 # Conclusion
 Yep, localization is pretty hard. Who could have known? For each language supported, it's like I am having 1.5x the work to do! I hate this! We should have all adopted to use Esperanto when we had the chance!
 
-Anyway, tune in next time where I reveal my special ability to shoot lasers out of my eyes! See ya!
+Anyway, tune in next time where I reveal my secret special ability to shoot lasers out of my eyes! See ya!
