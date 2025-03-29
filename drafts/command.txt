@@ -1,0 +1,18 @@
+pandoc drafts/lily-character-design-tw.md \
+  --resource-path=.:assets/posts/lily-character-design \
+  --from markdown \
+  --to pdf \
+  --output=drafts/output.pdf \
+  --pdf-engine=xelatex \
+  --template eisvogel \
+  --listings
+
+
+pandoc drafts/hiano-character-design-tw.md \
+  --resource-path=.:assets/posts/hiano-character-design \
+  --from markdown \
+  --to pdf \
+  --output=drafts/output.pdf \
+  --pdf-engine=xelatex \
+  --template eisvogel \
+  --listings

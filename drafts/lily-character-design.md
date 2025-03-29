@@ -5,7 +5,7 @@ author: null_id
 categories: [story, art]
 tag: [lilyfantasia, character]
 media_subpath: /assets/posts/lily-character-design/
-mainfont: Hiragino Sans CNS
+CJKmainfont: Heiti TC
 ---
 
 # Life Update
