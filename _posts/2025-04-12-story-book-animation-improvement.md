@@ -5,7 +5,6 @@ author: null_id
 categories: [animation]
 tag: [lilyfantasia]
 media_subpath: /assets/posts/story-book-animation-improvement/
-CJKmainfont: Hiragino Sans GB
 ---
 
 # Life Update
