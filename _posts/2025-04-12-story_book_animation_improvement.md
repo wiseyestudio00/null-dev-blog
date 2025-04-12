@@ -1,11 +1,11 @@
 ---
 title: "Story Book Animation Improvement"
-date: 2025-03-30 19:00:00 +0800
+date: 2025-04-12 19:00:00 +0800
 author: null_id
 categories: []
 tag: []
 media_subpath: /assets/posts/story-book-animation-improvement/
-CJKmainfont: Hiragino Sans GB
+CJKmainfont: Heiti TC
 ---
 
 # Life Update
@@ -20,13 +20,13 @@ I am a book lover (can you tell by now?), so it's kind of like a random Gacha fo
 
 ![Hosin Engi](hosin_engi.jpg)
 
-I know they are repackaged, because for some reasons there are actually 2 volume 14. However, I just think it's so rare to see a full collection of old mangas, I just had to buy it. So bought it I did. I wonder if they are fake, though. They very much could be fake. I guess I will need to open them and see their copyright page and investigate the print quality.....later.
+I know they are repackaged, because for some reasons there are actually 2 volume 14. However, I just think it's so rare to see a full collection of old mangas, I just had to buy it. So bought it I did. I wonder if they are fake, though. They very much could be fake. I guess I will need to open them and see their copyright page and investiage the print quality.....later.
 
-I also bought a bunch of old military encyclopedias. They aren't some ancient valuable books, and I am not a military nerd, but I still bought them as a collection of (what I think are) beautiful paintings of war machines.
+I also bought a bunch of old military encycopidias. They aren't some ancient valuable books, and I am not a military nerd, but I still bought them as a collection of (what I think are) beautiful paintings of war machines.
 
 ![Other Books](other_books.jpg)
 
-The store is run by a 79-year-old man. We talked for a while. I think he may be one of the last cultural people from the previous generation. It saddens me that something special here will be lost very soon. Thankfully I have my phone by my side and I open YouTube Shorts and I just forget about my sadness and everything and my feelings are numb which is good.
+The store is run by a 79-year-old man. We talked for a while. I think he may be one of the last cultural people from the previous generation. It saddens me that something special here (I can't put it to wordss) will be lost very soon. Thankfully I have my phone by my side and I open YouTube Shorts and I just forget about my saddness and everything and my feelings are numb which is good.
 
 # Story Book
 In Lily Fantasia's Story Mode (we call it Story Journey), there is a book. You would flip through its page to progress the story. Of course, there would need to be a Page Flipping animation. Here's the animation now.
@@ -35,7 +35,7 @@ In Lily Fantasia's Story Mode (we call it Story Journey), there is a book. You w
 
 It works. However, it's very static and not that interesting to look at. I think it needs more movements.
 
-My first idea is to displace its X position and Z angle, so it looks like it's being "pulled" by the player.
+My first idea is to displace its X position and Z-axis, so it looks like it's being "pulled" by the player.
 
 {% include embed/video.html src='story_book_v2.mp4' %}
 
@@ -47,11 +47,11 @@ It's even better now. But I still think it could be improved. I think it may be 
 
 {% include embed/video.html src='story_book_v4.mp4' %}
 
-I think I can rotate around the Y angle too, so the interface would look more "3D."
+I think I can rotate around the Y-axis too, so the interace would look more "3D."
 
 {% include embed/video.html src='story_book_v5.mp4' %}
 
-Looking good. Lastly, I would add some randomness to the angles and displacement every time so it stays interesting.
+Looking good. Lastly, I would add some randomness to the angles and displacement everytime so it stays interesting.
 
 {% include embed/video.html src='story_book_v6.mp4' %}
 
