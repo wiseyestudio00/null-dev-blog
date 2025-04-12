@@ -5,7 +5,7 @@ author: null_id
 categories: [story, art]
 tag: [lilyfantasia, character]
 media_subpath: /assets/posts/hiano-character-design/
-CJKmainfont: Heiti TC
+CJKmainfont: Hiragino Sans GB
 ---
 
 # Life Update

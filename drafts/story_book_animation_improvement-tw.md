@@ -5,7 +5,7 @@ author: null_id
 categories: []
 tag: []
 media_subpath: /assets/posts/story-book-animation-improvement/
-CJKmainfont: Heiti TC
+CJKmainfont: Hiragino Sans GB
 ---
 
 # 生活更新
