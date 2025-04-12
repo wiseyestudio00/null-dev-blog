@@ -1,11 +1,11 @@
 ---
-title: "Story Book Animation Improvement"
+title: "Lily Fantasia / Story Book Animation Improvement"
 date: 2025-04-12 19:00:00 +0800
 author: null_id
-categories: []
-tag: []
+categories: [animation]
+tag: [lilyfantasia]
 media_subpath: /assets/posts/story-book-animation-improvement/
-CJKmainfont: Heiti TC
+CJKmainfont: Hiragino Sans GB
 ---
 
 # Life Update
