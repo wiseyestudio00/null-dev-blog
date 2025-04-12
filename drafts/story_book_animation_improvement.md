@@ -26,7 +26,7 @@ I also bought a bunch of old military encycopidias. They aren't some ancient val
 
 ![Other Books](other_books.jpg)
 
-The store is run by a 79-year-old man. We talked for a while. I think he may be one of the last cultural people from the previous generation. It saddens me that I will never have the mental capacity (mostly inteliigence but also my destroyed attention span) and time to fully understand the knowledge from his generation. Thankfully I have my phone by my side and I open YouTube Shorts and I just forget about my saddness and everything and my feelings are numb which is good.
+The store is run by a 79-year-old man. We talked for a while. I think he may be one of the last cultural people from the previous generation. It saddens me that something special here will be lost very soon. Thankfully I have my phone by my side and I open YouTube Shorts and I just forget about my saddness and everything and my feelings are numb which is good.
 
 # Story Book
 In Lily Fantasia's Story Mode (we call it Story Journey), there is a book. You would flip through its page to progress the story. Of course, there would need to be a Page Flipping animation. Here's the animation now.
