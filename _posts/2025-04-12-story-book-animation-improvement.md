@@ -28,28 +28,36 @@ I also bought a bunch of old military encycopidias. They aren't some ancient val
 The store is run by a 79-year-old man. We talked for a while. I think he may be one of the last cultural people from the previous generation. It saddens me that something special here (I can't put it to wordss) will be lost very soon. Thankfully I have my phone by my side and I open YouTube Shorts and I just forget about my saddness and everything and my feelings are numb which is good.
 
 # Story Book
-In Lily Fantasia's Story Mode (we call it Story Journey), there is a book. You would flip through its page to progress the story. Of course, there would need to be a Page Flipping animation. Here's the animation now.
+In Lily Fantasia's Story Mode (we call it Story Journey), there is a book. You would flip through its page to progress the story. Of course, there would need to be a Page Flipping animation.
+
+## V1
+Here's the animation now.
 
 {% include embed/video.html src='story_book_v1.mp4' %}
 
 It works. However, it's very static and not that interesting to look at. I think it needs more movements.
 
+## V2
 My first idea is to displace its X position and Z-axis, so it looks like it's being "pulled" by the player.
 
 {% include embed/video.html src='story_book_v2.mp4' %}
 
+## V3
 It looks better. However, I want it to be more bouncy / human. I used several Easing, and reached the conclusion that I will need to use OutCubic when displacing the book, and OutBack when placing it back.
 
 {% include embed/video.html src='story_book_v3.mp4' %}
 
+## V4
 It's even better now. But I still think it could be improved. I think it may be interesting to make the book takes longer to be pulled, and shorter when placing it back, so it's more tight and snappy.
 
 {% include embed/video.html src='story_book_v4.mp4' %}
 
+## V5
 I think I can rotate around the Y-axis too, so the interace would look more "3D."
 
 {% include embed/video.html src='story_book_v5.mp4' %}
 
+## V6
 Looking good. Lastly, I would add some randomness to the angles and displacement everytime so it stays interesting.
 
 {% include embed/video.html src='story_book_v6.mp4' %}
