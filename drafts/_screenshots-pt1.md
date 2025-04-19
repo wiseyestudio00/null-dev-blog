@@ -21,4 +21,4 @@ I am very tired when I was writing this (I have not slept for 36 hours and I don
 ^ There are some new features in the Song Selection Menu too.
 
 # Conclusion
-The Ego must integrate the Shawdow to become closer to the Self man idk whatelse I can say.
+The Ego must integrate the Shadow to become closer to the Self man idk whatelse I can say.
