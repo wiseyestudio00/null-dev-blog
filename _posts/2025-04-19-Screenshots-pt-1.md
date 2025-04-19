@@ -2,8 +2,8 @@
 title: "Lily Fantasia / Screenshots Part 1"
 date: 2025-04-19 14:00:00 +0800
 author: null_id
-categories: []
-tag: []
+categories: [miscellaneous]
+tag: [lilyfantasia]
 media_subpath: /assets/posts/screenshots-pt-1/
 CJKmainfont: Hiragino Sans GB
 ---
