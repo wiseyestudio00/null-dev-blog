@@ -9,7 +9,7 @@ CJKmainfont: Hiragino Sans GB
 ---
 
 # Life Update
-I have been playing The Hundred Line -Last Defense Academy- recently. I refrain from talking about the game's quality because I don't want to influence your willingness to play the game. However, during one play session, I accidently loaded an old save instead of saving my current playthrough, so I lost hours of progress.
+I have been playing The Hundred Line -Last Defense Academy- recently. I refrain from talking about the game's quality because I don't want to influence your willingness to play the game (positive or negatively). However, during one play session, I accidentally loaded an old save instead of saving my current play-through, so I lost hours of progress.
 
 (I may have cried a little bit.)
 
@@ -44,7 +44,7 @@ Lastly, perhaps most excitingly, you can also use Lily Power to unlock bonus con
 
 (and maybe other things, I have not decided yet!)
 
-*ps, since the stories are now locked, you will need to unlock them again even if you have played through them. I am sorry!
+*ps, after the update, since the stories are now locked, you will need to unlock them again even if you have played through them. I am sorry!
 
 # When will this update come out?
 Obviously this would be a fairly big update to the demo. I really want to push it around the mid of May. There will be more news when this update is released! 
