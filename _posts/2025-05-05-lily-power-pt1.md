@@ -2,8 +2,8 @@
 title: "Lily Fantasia / Lily Power Part 1"
 date: 2025-05-05 19:00:00 +0800
 author: null_id
-categories: []
-tag: []
+categories: [miscellaneous]
+tag: [lilyfantasia]
 media_subpath: /assets/posts/lily-power-pt1/
 CJKmainfont: Hiragino Sans GB
 ---
