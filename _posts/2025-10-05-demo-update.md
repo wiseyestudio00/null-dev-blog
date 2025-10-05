@@ -49,7 +49,7 @@ In general, the gameplay loop won't change. However, there will be a lot of incr
 I have finished most of the works mentioned above. However, since this is a dev-blog, I will go into details with each improvements for weeks to come. This week, I want to focus on updating the Stage and its aesthetics.
 
 
-## Stage Update
+## Stage Aesthetic Update
 
 ![old gameplay](old_gameplay.png)
 
@@ -72,5 +72,48 @@ I would love to tell you what's going on, but I don't know either + it's too muc
 
 ![new gameplay](new_gameplay.png)
 
-Applying the shader to the dots & changing its texture to an more elegant grid design, this is what we ends up with. See how the patterns don't appear underneath the stage anymore so it looks so much clearer & better (in my opinion)!
+Applying the shader to the dots & changing its texture to an more elegant grid design, this is what we ended up with. See how the patterns don't appear underneath the stage anymore so it looks so much clearer & better (in my opinion)!
 
+## Visual Novel UI updates
+
+The Stage's updates are not finished yet. Another big problem I have with it is how much texts are displayed. I will fix them next week. Now let's see what UI improvements I have done for the Visual Novel.
+
+### Textbox
+
+Before, the textbox's buttons were not localized, the icons were reused, and the sfx were ordered wrongly.
+
+![old vn textbox](old_vn_textbox.png)
+
+I have now added localization for each button, update the icon (Skip button now uses the Coda symbol, which means "to skip to the target section" in music sheet symbols), and sfx have been fixed. I have also added a stylized English name of the character behind their localized name tag.
+
+![new vn textbox](new_vn_textbox.png)
+
+
+### Status Display
+
+In the Visual Novel, the player can choose to Auto/Fast Forward the dialogues. Th UI used to just display the status as plain texts, really ugly.
+
+![old vn auto](old_vn_auto.png)
+
+I have chosen the appropriate music sheet symbols to represent the status.
+
+![new vn auto](new_vn_auto.png)
+
+![new vn fast](new_vn_fast.png)
+
+### Logs
+
+I have also updated the Logs display. The old one doesn't really have anything wrong with it. It just doesn't look clean, and it's not clear how to exist the menu.
+
+![old vn logs](old_vn_logs.png)
+
+I added a control display, and also updated the background patterns to make it overall "cleaner."
+
+![new vn logs](new_vn_logs.png)
+
+I hope you like these changes. I worked hard to make sure with each changes, the original "paper/acoustic" aesthetics is maintained at all times, if not make it even better than what it is now.
+
+# Conclusion
+I know these changes may seem insignificant, but I believe in the details and user-experience can make or break the game. It is what separates good games from great games. I will continue to look for new ways to improve the game and do my best to act on them (with considerations on how important they may impact the gameplay experience.)
+
+Next week, I will talk about implementing the Achievement System and Profile Picture System.
