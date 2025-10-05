@@ -8,12 +8,12 @@ media_subpath: /assets/posts/demo-update-2025-10-05/
 CJKmainfont: Hiragino Sans GB
 ---
 
-# What have you been doing?
+## What have you been doing?
 I apologize for the lack of updates for the last few months. I have just been really locked in finishing up the Visual Novels and working on some animations.
 
 However, being "locked in" does not excuse me from the lack of update. I really do apologize. I have realized that I am a terrible Project Manager, and I am trying to regain control of my life and work. I will try to keep up the updates as frequent as promised.
 
-# Tokyo Game Show
+## Tokyo Game Show
 Before we talk about game development, let's get distracted one last time. As you know, I had recently gone to Tokyo Game Show in September. I have been attending a lot of expos since I started working on Lily Fantasia, but this was the first time I have gone to TGS. I want to share some photos with you.
 
 ![tgs 1](tgs_1.jpg)
@@ -24,14 +24,14 @@ Before we talk about game development, let's get distracted one last time. As yo
 
 I was amazed by how large Tokyo Game Show is. If I were to rough estimate its size, I would say it's about 4 times the size of Taipei Game Show. I felt overwhelmed by the energy and the scale of it. If everything comes together, I definitely want to go again next year with a full booth!
 
-# Game Content Update
+## Game Content Update Plan
 Good news: as of last month, all the stories (text) and visual novels have been written and put into the internal build of Lily Fantasia!
 
 However, although the story itself wouldn't change, I still need to work on some editing to make the story flow better. We have problems with the prologue(s) in particular, where the story's pacing needs some rework. Other than that (and besides some arts I am still waiting for), the contents of Lily Fantasia is about finalized and done.
 
 However, there are still a lot of potential polishings left on the table. I want to get one final demo update out to present the game "in its best state."
 
-# Demo Update
+## Demo Update Plan
 
 As you may know, there is another Expo named G-Eight that will take place in Taiwan around the end of November. I would have to officially update the Demo before it takes place.
 
