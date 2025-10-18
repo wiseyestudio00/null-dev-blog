@@ -3,7 +3,7 @@ title: "Lily Fantasia / Demo Update 2025-10-05"
 date: 2025-10-05 16:00:00 +0800
 author: null_id
 categories: []
-tag: []
+tag: [lilyfantasia]
 media_subpath: /assets/posts/demo-update-2025-10-05/
 CJKmainfont: Hiragino Sans GB
 ---
