@@ -55,7 +55,7 @@ There will also be achievements that require a "progress" to finish, such as the
 ## Deflect First Beat Animation
 Currently, there is an animation to help players to know when the "First Beat" of a Deflect sequence will happen (aka, when should the player start deflecting.) However, it's not really helpful at the moment. I have always dreamed of a more ARPG-like animation where a Circle will appear and shrink until it touches an inner, smaller circle.
 
-{% include embed/video.html src='new_first_beat_animation.mp4' %}
+{% include embed/video.html src='new_firstbeat_animation.mp4' %}
 
 So it's done. This is not the final version of the animation, but I think it's good enough to be shown to you now.
 
