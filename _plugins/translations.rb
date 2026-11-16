@@ -17,7 +17,9 @@
 #   1. copies every front matter key a translation doesn't set itself from its
 #      original (date, tags, categories, media_subpath, image...), so a
 #      translation only needs `title:`;
-#   2. stops the build when a translation has no original or an unknown language;
+#   2. holds a translation back while its original isn't published (dated in the
+#      future, or `published: false`) or it has a future date itself, and stops
+#      the build when a translation has no original or an unknown language;
 #   3. points a translation's Older/Newer buttons at its original's neighbours,
 #      in the same language when those are translated too;
 #   4. gives the original and its translations `page.translations` (used by
@@ -55,13 +57,21 @@ module PostTranslations
       # different case than the file on disk, and CI builds from git.
       originals = site.posts.docs.to_h { |post| [post.basename_without_ext.downcase, post] }
 
-      collection.docs.each do |doc|
+      # Translations left out of this build are removed from the collection, so
+      # nothing lists them or links to them.
+      collection.docs.select! do |doc|
         original = originals[doc.basename_without_ext.downcase]
         unless original
-          raise Jekyll::Errors::FatalException,
-                "Translation #{doc.relative_path} has no original: there is no post named " \
-                "#{doc.basename_without_ext} in _posts/. Give it the same filename as the post " \
-                "it translates (or start its name with _ to leave it unpublished)."
+          # Jekyll leaves out posts dated in the future and `published: false` ones,
+          # but reads other collections' documents anyway.
+          unless original_file?(site, doc)
+            raise Jekyll::Errors::FatalException,
+                  "Translation #{doc.relative_path} has no original: there is no post named " \
+                  "#{doc.basename_without_ext} in _posts/. Give it the same filename as the post " \
+                  "it translates (or start its name with _ to leave it unpublished)."
+          end
+          Jekyll.logger.warn "Skipping:", "#{doc.relative_path} until its original is published"
+          next false
         end
 
         lang = doc.data["lang"]
@@ -72,7 +82,14 @@ module PostTranslations
         end
 
         inherit(doc, original)
+        # Jekyll doesn't write a page dated in the future, whatever its collection.
+        unless site.publisher.publish?(doc)
+          Jekyll.logger.warn "Skipping:", "#{doc.relative_path} has a future date"
+          next false
+        end
+
         (groups[original] ||= []) << doc
+        true
       end
 
       groups.each do |original, translations|
@@ -138,6 +155,16 @@ module PostTranslations
 
     def language_of(doc)
       doc.data["lang"] || doc.site.config["lang"]
+    end
+
+    # Whether this translation's original is in _posts/ (or _drafts/) although it
+    # isn't in this build.
+    def original_file?(site, doc)
+      name = doc.basename_without_ext.downcase
+      posts = site.posts.directory
+      [posts, File.join(File.dirname(posts), "_drafts")].any? do |dir|
+        Dir.glob("**/*", base: dir).any? { |path| File.basename(path, ".*").downcase == name }
+      end
     end
 
     def inherit(doc, original)
