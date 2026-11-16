@@ -8,7 +8,23 @@ media_subpath: /assets/posts/hexahysteria/
 CJKmainfont: Hiragino Sans GB
 ---
 
-Hi, I am NULL, the creator of Hexa Hysteria and Lily Fantasia. Thank you for clicking into this post. I have just formally annouced that Hexa Hysteria will not receive more contents after the next one, which fills up a Chapter's story. In this post, I will explain how this has come to be - my mistakes, my failures that lead up to this decision.
+```
+Hello players:
+
+Thank you for your support of Hexa Hysteria. 2 years ago, I said I would return to developing it, after I finished developing Lily Fantasia. However, I have come to the realization that this couldn't be. I still love this game and am happy with its stories and gameplay. However, financially, I cannot continue creating content for it. I apologize.
+
+Hexa Hysteria will receive its final content update on 2026's Christmas. It will add in the story of Chapter 40.5 AU. I will also turn off all of its in-game purchases and subscription plan, and release all of its contents for free, as I no longer feel comfortable charing people for a project that will no longer receive content updates.
+
+I have seen online people became very disappointed in the studio - me - over the situation of Hexa Hysteria. I have written a post on why I came to this decision. If you are interested and want a formal explanation, please take a look: https://wiseyestudio00.github.io/null-dev-blog/posts/hexahysteria/
+
+Again, thank you for the support over the years. And again, I am sorry I have failed you. I will keep continueing working on updating Lily Fantasia for now.
+```
+
+Hi, I am NULL, the creator of Hexa Hysteria and Lily Fantasia. Thank you for clicking into this post. I have just formally annouced that Hexa Hysteria will not receive more contents after the next one, which fills up a Chapter's story.
+
+This post is an Apology in two senses: first, it is an apology from me to you. I am sorry that I failed Hexa Hysteria, and your trust in me. It is also an Apology as its original meaning in ancient Greek - apologia (ἀπολογία), or a "speech in defense." I will explain how this has come to be - my mistakes, my failures that lead up to this decision. I will explain why I failed as a game developer, and why I couldn't continue creating what I love.
+
+By doing so, I don't hope to earn your forgiveness, but just to let you know I didn't give up without struggling. I tried my best, but I was flawed - I am not as talented as I thought I was. And by knowing just how defeated I feel, maybe you would understand this decision better.
 
 # TLDR
 - After the next update, which fills up 40.5 AU's story, Hexa Hysteria won't receive any more content updates.
@@ -25,7 +41,7 @@ I have a sense that some, if not the marjority, players feel betrayed and angry 
 
 Both lines of thoughts are correct - at the very least, I did lie about coming back to Hexa Hysteria. If so, how can anyone keep supporting me in the future, for a different game or other projects? I have come to the realization that I owe those players - you - a formal apology, and explained what had happend leading to this failure, at the risk that my words may sound just like excuses and dolging the responsibility I have to you.
 
-Therefore, first and foremost, I apologize: My abilities were never what I thought they were and I am sorry for presenting something that look so promising, only to take it away from you. I didn't realize my failure (which I thought would impact me and me only) may have such negative impact to some people, and I will try to learn and improve from what had happened.
+Therefore, first and foremost, I apologize: My abilities were never what I thought they were and I am sorry for presenting something that look so promising, only to take it away from you. I didn't realize my failure (which I thought would impact me and me only) may have such negative impact to some people's view on me and the studio, and I will try to learn and improve from what had happened.
 
 The following is a postmortem of what Hexa Hysteria, and how my thinking has changed over the years. I will try to explain the points of failure, and why I think I can't continue creating more content for Hexa Hysteria.
 
@@ -121,7 +137,7 @@ Of course, the over-arching main story was probably what got you excited, and th
 
 If we are just talking about facts about the story, I suppose there are 3:
 - There was always a third chapter for Hexa Hysteria, with the script finished. I tried to create it in game, but for multiple reasons, it couldn't be done. I may consider releasing the script, but it would be a waste of potential.
-- I have been, and still am, trying to make a prototype game for the overaching story. It won't be a rhythm game.
+- I have been, and still am, trying to make a prototype of a new game for the overaching story. It won't be a rhythm game.
 - However, I really doubt if I can actually create that game, as I am feeling so defeated and uncertain about myself and the future. For now, I am trying to make a prototype of the game, but if the success rate of indie games remain so low - I don't see why that would change - I doubt I will actually fully finish it.
 
 ![New Game Screenshot](newgame_screenshot.png)

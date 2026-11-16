@@ -1,17 +1,20 @@
 {%- comment -%}
   Overrides Chirpy's empty metadata-hook.html, which is rendered at the end of <head>.
-  It only does something on posts that have translations: those get
-  `page.translations` from _plugins/translations.rb.
+  Shows posts in the reader's language, using what _plugins/translations.rb provides:
+  `site.data.post_translations` (every translated post) and `page.translations`
+  (the versions of this post).
 {%- endcomment -%}
-{%- if page.translations -%}
+{%- if site.data.post_translations.size > 0 -%}
   {%- assign current_lang = page.lang | default: site.lang -%}
-  {%- assign original = page.translations | where: 'lang', site.lang | first -%}
 
-  <!-- Tell search engines these pages are versions of each other -->
-  {%- for version in page.translations %}
-  <link rel="alternate" hreflang="{{ version.lang }}" href="{{ version.url | absolute_url }}">
-  {%- endfor %}
-  <link rel="alternate" hreflang="x-default" href="{{ original.url | absolute_url }}">
+  {%- if page.translations -%}
+    {%- assign original = page.translations | where: 'lang', site.lang | first -%}
+    <!-- Tell search engines these pages are versions of each other -->
+    {%- for version in page.translations %}
+    <link rel="alternate" hreflang="{{ version.lang }}" href="{{ version.url | absolute_url }}">
+    {%- endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ original.url | absolute_url }}">
+  {%- endif %}
 
   <style>
     .lang-switch {
@@ -21,6 +24,12 @@
       gap: 0.4rem;
       margin-top: 1rem;
       color: var(--text-muted-color);
+    }
+    .lang-switch-home {
+      margin-top: 1.5rem;
+    }
+    .lang-switch-home + #post-list {
+      margin-top: 1.25rem;
     }
     .lang-switch .post-tag {
       margin: 0;
@@ -37,13 +46,17 @@
       border-color: var(--link-color);
     }
     {%- comment -%}
-      CJK fonts from `languages` in _config.yml, so each language gets its own glyph shapes:
-      first for the switcher's language names, then for the whole page in its language.
+      CJK fonts from `languages` in _config.yml, so each language gets its own glyph
+      shapes: first for text marked with that language (language names, and titles
+      and summaries shown in the reader's language), then for whole pages in it.
     {%- endcomment -%}
     {%- for language in site.languages -%}
       {%- if language[1].fonts %}
-    .lang-switch .post-tag:lang({{ language[0] }}) {
-      font-family: {{ language[1].fonts }}, sans-serif;
+    [lang="{{ language[0] }}"]:not(html) {
+      font-family: 'Source Sans Pro', {{ language[1].fonts }}, sans-serif;
+    }
+    :is(h1, h2, h3, h4, h5)[lang="{{ language[0] }}"] {
+      font-family: Lato, {{ language[1].fonts }}, sans-serif;
     }
       {%- endif -%}
     {%- endfor -%}
@@ -59,34 +72,137 @@
   </style>
 
   <script>
-    /* Remember the language a reader picks in the switcher, and open every post
-       that has a version in that language in it. */
+    /* Shows posts in the reader's language: the one picked in a language switcher
+       (remembered in localStorage), or else this page's language. */
     (function () {
       var KEY = 'preferred-lang';
+      var DEFAULT_LANG = {{ site.lang | jsonify }};
       var current = {{ current_lang | jsonify }};
-      var versions = {
-        {%- for version in page.translations -%}
-          {{ version.lang | jsonify }}: {{ version.url | relative_url | jsonify }}
-          {%- unless forloop.last -%},{%- endunless -%}
+      var languages = [
+        {%- for language in site.languages -%}
+          {{ language[0] | jsonify }}{% unless forloop.last %}, {% endunless %}
         {%- endfor -%}
-      };
+      ];
+      /* Original post URL => { title, versions: { lang: { url, title, summary } } }.
+         Only block comments in this script: the production build puts it all on one line. */
+      var posts = {{ site.data.post_translations | jsonify | replace: '</', '<\/' | replace: '<!--', '<\!--' }};
+      /* This post's versions, lang => URL (only on posts with translations) */
+      var versions = {% if page.translations %}{
+        {%- for version in page.translations -%}
+          {{ version.lang | jsonify }}: {{ version.url | relative_url | jsonify }}{% unless forloop.last %}, {% endunless %}
+        {%- endfor -%}
+      }{% else %}null{% endif %};
+
+      function save(lang) {
+        try {
+          localStorage.setItem(KEY, lang);
+        } catch (e) {}
+      }
+
+      /* A ?lang= link (the home page's selector) picks a language; the parameter
+         is then dropped so it doesn't stick to the address. */
+      var params = new URLSearchParams(location.search);
+      if (languages.indexOf(params.get('lang')) >= 0) {
+        save(params.get('lang'));
+        params.delete('lang');
+        var query = params.toString();
+        history.replaceState(history.state, '', location.pathname + (query ? '?' + query : '') + location.hash);
+      }
 
       var preferred = null;
       try {
         preferred = localStorage.getItem(KEY);
       } catch (e) {}
+      if (languages.indexOf(preferred) < 0) preferred = null;
 
-      if (preferred && preferred !== current && versions[preferred]) {
+      /* On a translated post, open the version in the reader's language. */
+      if (versions && preferred && preferred !== current && versions[preferred]) {
         location.replace(versions[preferred]);
         return;
       }
 
+      /* Remember the language picked in a switcher. */
       document.addEventListener('click', function (event) {
         var link = event.target.closest('.lang-switch [data-lang]');
-        if (!link) return;
-        try {
-          localStorage.setItem(KEY, link.getAttribute('data-lang'));
-        } catch (e) {}
+        if (link) save(link.getAttribute('data-lang'));
+      });
+
+      var lang = preferred || current;
+      if (lang === DEFAULT_LANG) return;
+
+      /* Point a link to a post at its version in `lang`, with that version's
+         title and summary. Posts without one keep the original. */
+      function localize(link) {
+        if (link.closest('.lang-switch')) return;
+        var key = link.getAttribute('data-post');
+        if (!key) {
+          try {
+            var url = new URL(link.href, location.href);
+          } catch (e) {
+            return;
+          }
+          if (url.origin !== location.origin || !posts[url.pathname]) return;
+          key = url.pathname;
+          link.setAttribute('data-post', key);
+        }
+        var post = posts[key];
+        var version = post.versions[lang];
+        if (!version) return;
+
+        /* Chirpy's "Further Reading" on a translation lists the post's own original */
+        if (version.url === location.pathname) {
+          var card = link.closest('#related-posts article');
+          if (card) {
+            card.remove();
+            return;
+          }
+        }
+
+        if (link.getAttribute('href') !== version.url) link.setAttribute('href', version.url);
+
+        var walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+        for (var node = walker.nextNode(); node; node = walker.nextNode()) {
+          if (node.nodeValue.trim() === post.title) {
+            node.nodeValue = node.nodeValue.replace(post.title, version.title);
+            node.parentNode.setAttribute('lang', lang);
+          }
+        }
+
+        /* Post cards: on the home page, and under "Further Reading" on posts */
+        var summary = link.querySelector('.card-text p, .text-muted p');
+        if (summary && summary.textContent !== version.summary) {
+          summary.textContent = version.summary;
+          summary.setAttribute('lang', lang);
+        }
+      }
+
+      function markActive(item) {
+        var active = item.getAttribute('data-lang') === lang;
+        item.classList.toggle('active', active);
+        if (active) item.setAttribute('aria-current', 'true');
+        else item.removeAttribute('aria-current');
+      }
+
+      function scan(node) {
+        var el = node.nodeType === 1 ? node : node.parentElement;
+        if (!el) return;
+        var link = el.closest('a[href]');
+        if (link) localize(link);
+        el.querySelectorAll('a[href]').forEach(localize);
+        if (el.matches('.lang-switch-home [data-lang]')) markActive(el);
+        el.querySelectorAll('.lang-switch-home [data-lang]').forEach(markActive);
+      }
+
+      /* Change links while the page is parsed, before it's drawn; then once more
+         when it's complete. Also covers content added later, like search results. */
+      new MutationObserver(function (records) {
+        records.forEach(function (record) {
+          record.addedNodes.forEach(scan);
+        });
+      }).observe(document.documentElement, { childList: true, subtree: true });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        scan(document.body);
       });
     })();
   </script>

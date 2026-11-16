@@ -22,7 +22,11 @@
 #      in the same language when those are translated too;
 #   4. gives the original and its translations `page.translations` (used by
 #      _includes/metadata-hook.html) and puts the language switcher above the
-#      post body.
+#      post body;
+#   5. lists every translated post in `site.data.post_translations` (title,
+#      URL and summary of each version), which the script in
+#      _includes/metadata-hook.html uses to show post lists in the reader's
+#      language, and puts a language selector above the home page's list.
 
 require "cgi"
 
@@ -33,8 +37,10 @@ module PostTranslations
     last_modified_at redirect_from redirect_to translations
   ).freeze
 
-  # Where the switcher goes: right before the post body in Chirpy's post layout.
+  # Where the switchers go: right before the post body in Chirpy's post layout,
+  # and right before the list of posts in its home layout.
   CONTENT_MARKER = '<div class="content">'
+  HOME_MARKER = '<div id="post-list"'
 
   class << self
     # Original post => its translations. Rebuilt on every build.
@@ -77,6 +83,8 @@ module PostTranslations
     # Runs once URLs are final.
     def list_versions(site)
       order = languages(site).keys
+      baseurl = site.baseurl.to_s
+      lookup = {}
       groups.each do |original, translations|
         versions = [original, *translations].sort_by do |doc|
           order.index(language_of(doc)) || order.size
@@ -91,7 +99,25 @@ module PostTranslations
           }
         end
         versions.each { |doc| doc.data["translations"] = list }
+
+        by_lang = translations.to_h do |doc|
+          version = { "url" => baseurl + doc.url, "title" => doc.data["title"], "summary" => summary(doc) }
+          [doc.data["lang"], version]
+        end
+        lookup[baseurl + original.url] = { "title" => original.data["title"], "versions" => by_lang }
       end
+      site.data["post_translations"] = lookup
+    end
+
+    def add_home_switcher(page)
+      return unless page.data["layout"] == "home" && page.output
+      return if page.site.data["post_translations"].to_h.empty?
+
+      html = home_switcher_html(page.site)
+      return if page.output.sub!(HOME_MARKER) { html + HOME_MARKER }
+
+      Jekyll.logger.warn "Translations:",
+                         "#{page.relative_path} has no #{HOME_MARKER}, so no language selector."
     end
 
     def add_switcher(doc)
@@ -158,6 +184,32 @@ module PostTranslations
       %(<nav class="lang-switch" aria-label="Language">) +
         %(<i class="fas fa-language fa-fw" aria-hidden="true"></i>#{items.join}</nav>)
     end
+
+    # The home page has one URL for every language, so its links only pick one
+    # (`?lang=`); the script in metadata-hook.html marks the active one.
+    def home_switcher_html(site)
+      items = languages(site).map do |lang, language|
+        name = CGI.escapeHTML(language["name"].to_s)
+        active = lang == site.config["lang"]
+        %(<a class="post-tag#{" active" if active}" href="?lang=#{lang}" lang="#{lang}" ) +
+          %(data-lang="#{lang}"#{' aria-current="true"' if active}>#{name}</a>)
+      end
+      %(<nav class="lang-switch lang-switch-home" aria-label="Language">) +
+        %(<i class="fas fa-language fa-fw" aria-hidden="true"></i>#{items.join}</nav>)
+    end
+
+    # The text Chirpy's post-summary.html shows on post cards: the description,
+    # or the first 200 characters of the post as plain text. Worked out from
+    # the Markdown, since translations are rendered after the posts listing them.
+    def summary(doc)
+      return doc.data["description"].to_s if doc.data["description"]
+
+      markdown = doc.content.gsub(/\{%.*?%\}|\{\{.*?\}\}/m, "") # Liquid isn't text
+      html = doc.site.find_converter_instance(Jekyll::Converters::Markdown).convert(markdown)
+      text = html.gsub(%r{<script.*?</script>|<style.*?</style>|<!--.*?-->}m, "").gsub(/<.*?>/m, "")
+      text = CGI.unescapeHTML(text).gsub(/\s*\n\s*/, " ").strip
+      text.length > 200 ? "#{text[0, 197]}..." : text
+    end
   end
 end
 
@@ -171,4 +223,8 @@ end
 
 Jekyll::Hooks.register [:posts, :translations], :post_render do |doc|
   PostTranslations.add_switcher(doc)
+end
+
+Jekyll::Hooks.register :pages, :post_render do |page|
+  PostTranslations.add_home_switcher(page)
 end
