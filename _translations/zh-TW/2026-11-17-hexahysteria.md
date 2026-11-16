@@ -1,5 +1,5 @@
 ---
-title: "Hexa Hysteria／事後檢討"
+title: "Hexa Hysteria／回憶錄"
 date: 2026-11-17 19:00:00 +0800
 author: null_id
 categories: []
