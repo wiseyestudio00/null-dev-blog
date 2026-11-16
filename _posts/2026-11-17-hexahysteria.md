@@ -8,7 +8,7 @@ media_subpath: /assets/posts/hexahysteria/
 CJKmainfont: Hiragino Sans GB
 ---
 
-Hi, thank you for clicking into this blog.
+Hi, I am NULL, the creator of Hexa Hysteria and Lily Fantasia. Thank you for clicking into this post. I have just formally annouced that Hexa Hysteria will not receive more contents after the next one, which fills up a Chapter's story. In this post, I will explain how this has come to be - my mistakes, my failures that lead up to this decision.
 
 # TLDR
 - After the next update, which fills up 40.5 AU's story, Hexa Hysteria won't receive any more content updates.
@@ -142,4 +142,8 @@ At the same time, I suspect I couldn't stop creating. I will continue trying to 
 
 # Ending
 
-I am sorry that things come to such a depressive conclusion, but in an apology, I think honesty is the one thing I should at least try to convey. 
+I am sorry that things come to such a depressive conclusion, but in an apology, I think honesty is the one thing I should at least try to convey. I would like to say that I came out of this a better person, and maybe I am, in that my visions are clearer, that I see better of myself who I am. However, in terms of the future, I feel like there is nothing actionable I could do now. Times have changed, and so have I. What I had was a seed, and now the seed has grown into a tree I don't particularly like, but it is who I am now. I will still be trying and struggling, but I won't think so highly of myself anymore.
+
+Will I have something for you in the future? Personally, I hope so, but I don't think so, at least not in the near future. It may be one year from now, or 5 years, or never. I will keep trying and struggling, but until I have something really concrete for you, please don't think anything of that suffering.
+
+Thank you for reading this apology. I hope I see you in the future.

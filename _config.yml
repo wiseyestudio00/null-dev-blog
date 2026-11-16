@@ -8,6 +8,26 @@ theme: jekyll-theme-chirpy
 # otherwise, the layout language will use the default value of 'en'.
 lang: en
 
+# Languages posts can be translated into, in the order the language switcher shows them.
+# Originals in _posts/ are written in `lang` above. A translation goes in
+# _translations/<language>/ under the SAME filename as its original and only needs
+# `title:` in its front matter: everything else is copied from the original by
+# _plugins/translations.rb. To add a language, list it here and add a `defaults`
+# entry for its folder (see the end of this file).
+#
+# `fonts`: CJK fonts used on that language's pages. Chirpy's own font list starts
+# with 'Microsoft Yahei', a Simplified Chinese font, which on Windows would draw
+# Japanese and Traditional Chinese with mainland Chinese glyph shapes.
+languages:
+  en:
+    name: English
+  zh-TW:
+    name: 繁體中文
+    fonts: "'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei'"
+  ja-JP:
+    name: 日本語
+    fonts: "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', Meiryo"
+
 # Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
 timezone: Asia/Taipei
 
@@ -163,6 +183,10 @@ collections:
   tabs:
     output: true
     sort_by: order
+  # Post translations (see `languages` above). A separate collection gets its own
+  # pages but never shows up in Chirpy's lists, which only read `site.posts`.
+  translations:
+    output: true
 
 defaults:
   - scope:
@@ -185,6 +209,23 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: translations # see `languages` at the top
+    values:
+      layout: post
+      comments: true
+      toc: true
+  - scope:
+      path: _translations/zh-TW
+    values:
+      lang: zh-TW
+      permalink: /posts/:title-tc/ # same URLs as the old "-tc" posts
+  - scope:
+      path: _translations/ja-JP
+    values:
+      lang: ja-JP
+      permalink: /posts/:title-jp/ # same URLs as the old "-jp" posts
 
 sass:
   style: compressed

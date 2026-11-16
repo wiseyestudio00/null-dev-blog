@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 #
-# Check for changed posts
+# Check for changed posts and post translations (see translations.rb)
 
-Jekyll::Hooks.register :posts, :post_init do |post|
+Jekyll::Hooks.register [:posts, :translations], :post_init do |post|
 
   commit_num = `git rev-list --count HEAD "#{ post.path }"`
 
