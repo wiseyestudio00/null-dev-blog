@@ -16,7 +16,8 @@
 #   _includes/toc-status.html   turns the TOC on for any heading level
 #                               (Chirpy only looks for h2/h3)
 #   _includes/js-selector.html  loads tocbot whenever the TOC is on
-#   _includes/metadata-hook.html  indents H5/H6 in the popup like the others
+#   _includes/metadata-hook.html  makes h1/h5/h6 land where tocbot highlights
+#                               them when clicked, and indents H5/H6 in the popup
 
 module TocAllHeadings
   SCRIPT = "assets/js/dist/post.min.js"

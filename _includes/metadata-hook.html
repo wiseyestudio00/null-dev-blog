@@ -1,10 +1,17 @@
 {%- comment -%}
   Overrides Chirpy's empty metadata-hook.html, which is rendered at the end of <head>.
-  Shows posts in the reader's language, using what _plugins/translations.rb provides:
-  `site.data.post_translations` (every translated post) and `page.translations`
-  (the versions of this post).
+  Shows the site in the reader's language, using what _plugins/translations.rb
+  provides: `site.data.post_translations` (every translated post) and
+  `page.translations` (the versions of this post). The script below:
+    - opens the version of a post in the reader's language;
+    - shows titles and summaries of translated posts in it, wherever posts are listed;
+    - on pages that are only built in another language (the home page, Categories,
+      Tags, Archives, About, posts that aren't translated), swaps Chirpy's own text
+      for the reader's language's, as Chirpy writes it on pages built in that
+      language: sidebar, top bar, search, panels, dates, post details and footer.
 
-  At the end: H5/H6 indents for the TOC popup (see _plugins/toc-all-headings.rb).
+  At the end: where headings land when picked in the TOC, and H5/H6 indents in
+  the TOC popup (see _plugins/toc-all-headings.rb).
 {%- endcomment -%}
 {%- if site.data.post_translations.size > 0 -%}
   {%- assign current_lang = page.lang | default: site.lang -%}
@@ -74,7 +81,7 @@
   </style>
 
   <script>
-    /* Shows posts in the reader's language: the one picked in a language switcher
+    /* Shows the site in the reader's language: the one picked in a language switcher
        (remembered in localStorage), or else this page's language. */
     (function () {
       var KEY = 'preferred-lang';
@@ -94,6 +101,16 @@
           {{ version.lang | jsonify }}: {{ version.url | relative_url | jsonify }}{% unless forloop.last %}, {% endunless %}
         {%- endfor -%}
       }{% else %}null{% endif %};
+      /* Chirpy's own text in each language: its locale files, which it builds the
+         pages in that language from (lang => { tabs: { home: ... }, panel: ... }) */
+      var LOCALES = {
+        {%- for language in site.languages -%}
+          {%- assign code = language[0] -%}
+          {{ code | jsonify }}: {{ site.data.locales[code] | default: site.data.locales[site.lang] | jsonify | replace: '</', '<\/' }}{% unless forloop.last %}, {% endunless %}
+        {%- endfor -%}
+      };
+      /* Tabs (Categories, Tags...) show their own name where other pages show their title */
+      var TAB_PAGE = {{ page.collection | jsonify }} === 'tabs';
 
       function save(lang) {
         try {
@@ -103,19 +120,20 @@
 
       /* A ?lang= link (the home page's selector) picks a language; the parameter
          is then dropped so it doesn't stick to the address. */
+      var preferred = null;
       var params = new URLSearchParams(location.search);
       if (languages.indexOf(params.get('lang')) >= 0) {
-        save(params.get('lang'));
+        preferred = params.get('lang');
+        save(preferred);
         params.delete('lang');
         var query = params.toString();
         history.replaceState(history.state, '', location.pathname + (query ? '?' + query : '') + location.hash);
+      } else {
+        try {
+          preferred = localStorage.getItem(KEY);
+        } catch (e) {}
+        if (languages.indexOf(preferred) < 0) preferred = null;
       }
-
-      var preferred = null;
-      try {
-        preferred = localStorage.getItem(KEY);
-      } catch (e) {}
-      if (languages.indexOf(preferred) < 0) preferred = null;
 
       /* On a translated post, open the version in the reader's language. */
       if (versions && preferred && preferred !== current && versions[preferred]) {
@@ -130,7 +148,23 @@
       });
 
       var lang = preferred || current;
-      if (lang === DEFAULT_LANG) return;
+
+      /* Back on this page after picking another language on a later one: the browser
+         shows it as it was left, so it's loaded again to show the new language. */
+      window.addEventListener('pageshow', function (event) {
+        var now = null;
+        try {
+          now = localStorage.getItem(KEY);
+        } catch (e) {}
+        if (event.persisted && languages.indexOf(now) >= 0 && now !== lang) location.reload();
+      });
+
+      /* Lists of posts are built in DEFAULT_LANG, Chirpy's own text in the page's language */
+      var localizePosts = lang !== DEFAULT_LANG;
+      var ui = lang !== current && LOCALES[current] && LOCALES[lang]
+        ? { from: LOCALES[current], to: LOCALES[lang] }
+        : null;
+      if (!localizePosts && !ui) return;
 
       /* Point a link to a post at its version in `lang`, with that version's
          title and summary. Posts without one keep the original. */
@@ -185,26 +219,360 @@
         else item.removeAttribute('aria-current');
       }
 
+      /* ----- Chirpy's own text -----
+         Pages are built in one language, and Chirpy writes its text in it from
+         LOCALES. `ui.from` is the page's, `ui.to` the reader's. */
+
+      function pick(locale, path) {
+        return path.split('.').reduce(function (value, key) {
+          return value && typeof value === 'object' ? value[key] : undefined;
+        }, locale);
+      }
+
+      /* How Chirpy's templates print some of it: as is, or through Liquid's
+         upcase (sidebar) or capitalize (top bar) */
+      function same(text) {
+        return text;
+      }
+      function upcase(text) {
+        return text.toUpperCase();
+      }
+      function capitalize(text) {
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+      }
+
+      /* `text` in the reader's language if it's the string at one of `keys`
+         ('tabs' stands for every tab name) printed one of the `forms` ways, else null */
+      function translated(text, keys, forms) {
+        forms = forms || [same];
+        var paths = [];
+        keys.forEach(function (key) {
+          var value = pick(ui.from, key);
+          if (value && typeof value === 'object') {
+            Object.keys(value).forEach(function (name) {
+              paths.push(key + '.' + name);
+            });
+          } else {
+            paths.push(key);
+          }
+        });
+        for (var i = 0; i < paths.length; i += 1) {
+          var from = pick(ui.from, paths[i]);
+          var to = pick(ui.to, paths[i]);
+          if (typeof from !== 'string' || typeof to !== 'string') continue;
+          for (var j = 0; j < forms.length; j += 1) {
+            if (forms[j](from) === text) return forms[j](to);
+          }
+        }
+        return null;
+      }
+
+      /* The text directly in `el` (not in the elements inside it) */
+      function swapText(el, keys, forms) {
+        var changed = false;
+        el.childNodes.forEach(function (node) {
+          var text = node.nodeType === 3 ? node.nodeValue.trim() : '';
+          var to = text && translated(text, keys, forms);
+          if (to && to !== text) {
+            node.nodeValue = node.nodeValue.replace(text, function () {
+              return to;
+            });
+            changed = true;
+          }
+        });
+        if (changed) el.setAttribute('lang', lang);
+      }
+
+      function swapAttribute(el, name, keys, forms) {
+        var value = el.getAttribute(name);
+        var to = value && translated(value.trim(), keys, forms);
+        if (to && to !== value) el.setAttribute(name, to);
+        return Boolean(to);
+      }
+
+      /* Text with links in it, from a template like "Using the :THEME theme for
+         :PLATFORM.": the links stay, in the order the reader's language puts them */
+      function swapTemplate(el, key) {
+        var from = pick(ui.from, key);
+        var to = pick(ui.to, key);
+        if (typeof from !== 'string' || typeof to !== 'string' || from === to) return false;
+        var PLACEHOLDER = /:[A-Z_]+/g;
+        var names = from.match(PLACEHOLDER) || [];
+        var links = {};
+        var shape = '';
+        var count = 0;
+        for (var i = 0; i < el.childNodes.length; i += 1) {
+          var node = el.childNodes[i];
+          if (node.nodeType === 3) {
+            shape += node.nodeValue;
+          } else if (node.nodeType === 1) {
+            if (count === names.length) return false;
+            links[names[count]] = node;
+            shape += names[count];
+            count += 1;
+          }
+        }
+        if (count !== names.length || squeeze(shape) !== squeeze(from)) return false;
+        var order = to.match(PLACEHOLDER) || [];
+        if (order.some(function (name) { return !links[name]; })) return false;
+        var texts = to.split(PLACEHOLDER);
+        el.textContent = '';
+        texts.forEach(function (text, index) {
+          if (text) el.appendChild(document.createTextNode(text));
+          if (index < order.length) el.appendChild(links[order[index]]);
+        });
+        el.setAttribute('lang', lang);
+        return true;
+      }
+
+      function squeeze(text) {
+        return text.replace(/\s+/g, ' ').trim();
+      }
+
+      /* "This post is licensed under CC BY 4.0 by the author." */
+      function swapLicense(el) {
+        if (!swapTemplate(el, 'copyright.license.template')) return;
+        var link = el.querySelector('a');
+        if (!link) return;
+        swapText(link, ['copyright.license.name']);
+        var href = pick(ui.to, 'copyright.license.link');
+        if (href && link.getAttribute('href') === pick(ui.from, 'copyright.license.link')) {
+          link.setAttribute('href', href);
+        }
+      }
+
+      /* "25 min read", and "4576 words" when pointed at. Chirpy puts a space before
+         a one-word prompt like "read", and none before "閱讀" (2 words: Jekyll's
+         number_of_words counts each CJK character as one). */
+      var CJK = /[ᄀ-ᇿ぀-ヿ㄰-㆏ㇰ-ㇿ㐀-䶿一-鿿가-힯豈-﫿ｦ-ﾟ]/g;
+      var NOT_CJK = /[^\sᄀ-ᇿ぀-ヿ㄰-㆏ㇰ-ㇿ㐀-䶿一-鿿가-힯豈-﫿ｦ-ﾟ]+/g;
+
+      function countWords(text) {
+        var cjk = (text.match(CJK) || []).length;
+        return cjk ? cjk + (text.match(NOT_CJK) || []).length : text.split(/\s+/).filter(Boolean).length;
+      }
+
+      function swapReadTime(el) {
+        var unit = pick(ui.to, 'post.read_time.unit');
+        var prompt = pick(ui.to, 'post.read_time.prompt');
+        var words = pick(ui.to, 'post.words');
+        var em = el.querySelector('em');
+        var time = em && em.textContent.match(/^\s*(\d+)\s*(.*?)\s*$/);
+        if (time && unit && time[2] === pick(ui.from, 'post.read_time.unit')) {
+          em.textContent = time[1] + ' ' + unit;
+        }
+        el.childNodes.forEach(function (node) {
+          var text = node.nodeType === 3 ? node.nodeValue.trim() : '';
+          if (text && prompt && text === pick(ui.from, 'post.read_time.prompt')) {
+            node.nodeValue = (countWords(prompt) > 1 ? '' : ' ') + prompt;
+          }
+        });
+        var count = (el.getAttribute('title') || '').match(/^(\d+) (.*)$/);
+        if (count && words && count[2] === pick(ui.from, 'post.words')) {
+          el.setAttribute('title', count[1] + ' ' + words);
+        }
+        el.setAttribute('lang', lang);
+      }
+
+      /* "1 category, 3 posts" on the Categories page */
+      function measure(locale, key, count) {
+        var value = pick(locale, 'categories.' + key);
+        if (value && typeof value === 'object') value = Number(count) > 1 ? value.plural : value.singular;
+        return value;
+      }
+
+      function swapCounts(el) {
+        var counts = squeeze(el.textContent).match(/^(?:(\d+) (.+?)( ?, ))?(\d+) (.+)$/);
+        if (!counts || counts[5] !== measure(ui.from, 'post_measure', counts[4])) return;
+        var text = '';
+        if (counts[1]) {
+          if (counts[2] !== measure(ui.from, 'category_measure', counts[1])) return;
+          text = counts[1] + ' ' + measure(ui.to, 'category_measure', counts[1]) + counts[3];
+        }
+        el.textContent = text + counts[4] + ' ' + measure(ui.to, 'post_measure', counts[4]);
+        el.setAttribute('lang', lang);
+      }
+
+      /* Dates. Chirpy writes them in the format of the page's language (`df` in
+         its locale files, or these defaults), and its script then rewrites them
+         with dayjs, in the page's language too. They're written here instead, in
+         the reader's language's format, and left alone by Chirpy's script. */
+      var DATE_FORMATS = [['df.post.dayjs', 'DD/MM/YYYY'], ['df.archives.dayjs', '/ MM']];
+
+      function intl(options) {
+        try {
+          return new Intl.DateTimeFormat(lang, options);
+        } catch (e) {
+          return new Intl.DateTimeFormat(undefined, options);
+        }
+      }
+
+      function twoDigits(number) {
+        return (number < 10 ? '0' : '') + number;
+      }
+
+      /* `date` in a dayjs format, or null if it has a token not handled here */
+      function formatDate(date, format) {
+        var known = true;
+        var text = format.replace(/\[([^\]]*)\]|YYYY|YY|MMMM|MMM|MM|M|DD|D|LL|ll|[A-Za-z]+/g, function (token, escaped) {
+          if (escaped !== undefined) return escaped;
+          switch (token) {
+            case 'YYYY': return String(date.getFullYear());
+            case 'YY': return String(date.getFullYear()).slice(-2);
+            case 'MMMM': return intl({ month: 'long' }).format(date);
+            case 'MMM': return intl({ month: 'short' }).format(date);
+            case 'MM': return twoDigits(date.getMonth() + 1);
+            case 'M': return String(date.getMonth() + 1);
+            case 'DD': return twoDigits(date.getDate());
+            case 'D': return String(date.getDate());
+            case 'LL': return intl({ year: 'numeric', month: 'long', day: 'numeric' }).format(date);
+            case 'll': return intl({ year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+          }
+          known = false;
+          return token;
+        });
+        return known ? text : null;
+      }
+
+      function swapDate(el) {
+        var format = el.getAttribute('data-df');
+        var target = format;
+        DATE_FORMATS.forEach(function (df) {
+          if (format === (pick(ui.from, df[0]) || df[1])) target = pick(ui.to, df[0]) || df[1];
+        });
+        var tooltip = el.getAttribute('data-bs-toggle') === 'tooltip';
+        if (target === format && !tooltip) return;
+        var date = new Date(Number(el.getAttribute('data-ts')) * 1000);
+        var text = formatDate(date, target);
+        if (text === null) {
+          /* left to dayjs, which only has the page's language for month names */
+          el.setAttribute('data-df', target);
+          return;
+        }
+        el.textContent = text;
+        if (tooltip) el.setAttribute('data-bs-title', intl({ dateStyle: 'full', timeStyle: 'short' }).format(date));
+        el.removeAttribute('data-ts');
+        el.removeAttribute('data-df');
+      }
+
+      /* Where Chirpy puts its text, and what it is there */
+      var RULES = [
+        ['#sidebar .nav-link > span', function (el) { swapText(el, ['tabs'], [upcase]); }],
+        ['#sidebar .dropdown-item', function (el) { swapText(el, ['theme']); }],
+        ['#breadcrumb > span', function (el) {
+          /* the last one is the page's title, except on the home page and the tabs */
+          if (!el.nextElementSibling && el.previousElementSibling && !TAB_PAGE) return;
+          [el].concat([].slice.call(el.children)).forEach(function (item) {
+            swapText(item, ['tabs'], [same, capitalize]);
+          });
+        }],
+        ['#topbar-title', function (el) { swapText(el, ['tabs', 'layout'], [same, capitalize]); }],
+        ['#search-input', function (el) {
+          var hint = function (text) { return capitalize(text) + '...'; };
+          if (swapAttribute(el, 'placeholder', ['search.hint'], [hint])) el.setAttribute('lang', lang);
+        }],
+        ['#search-cancel', function (el) { swapText(el, ['search.cancel']); }],
+        ['#search-results p', function (el) { swapText(el, ['search.no_results']); }],
+        ['.panel-heading', function (el) { swapText(el, ['panel']); }],
+        ['#toc-solo-trigger .label', function (el) { swapText(el, ['panel.toc']); }],
+        ['h1.dynamic-title', function (el) { swapText(el, ['tabs']); }],
+        ['.card.categories .text-muted', swapCounts],
+        ['[data-ts]', swapDate],
+        ['.post-meta span', function (el) {
+          swapText(el, ['post.posted', 'post.updated', 'post.written_by', 'post.pageview_measure']);
+        }],
+        ['.readtime', swapReadTime],
+        ['.license-wrapper', swapLicense],
+        ['.share-label', function (el) { swapText(el, ['post.share']); }],
+        ['#copy-link', function (el) {
+          swapAttribute(el, 'title', ['post.button.share_link.title']);
+          swapAttribute(el, 'data-title-succeed', ['post.button.share_link.succeed']);
+        }],
+        ['.code-header button', function (el) {
+          swapAttribute(el, 'data-title-succeed', ['post.button.copy_code.succeed']);
+        }],
+        ['#related-label', function (el) { swapText(el, ['post.relate_posts']); }],
+        ['.post-navigation [aria-label]', function (el) {
+          swapAttribute(el, 'aria-label', ['post.button.previous', 'post.button.next']);
+        }],
+        ['.content > p.lead', function (el) { swapText(el, ['not_found.statement']); }],
+        ['#notification .toast-body', function (el) { swapText(el, ['notification.update_found']); }],
+        ['#notification .btn-primary', function (el) { swapText(el, ['notification.update']); }],
+        ['footer span[title]', function (el) {
+          swapText(el, ['copyright.brief']);
+          swapAttribute(el, 'title', ['copyright.verbose']);
+        }],
+        ['footer p', function (el) { swapTemplate(el, 'meta'); }]
+      ];
+      var RULE_SELECTOR = RULES.map(function (rule) { return rule[0]; }).join(', ');
+
+      /* Elements are changed once the browser has read all of them, so text still
+         to come isn't missed: until then they wait in `queued`. */
+      var queued = [];
+      var done = new WeakSet();
+
+      function queue(el) {
+        if (!done.has(el) && queued.indexOf(el) < 0) queued.push(el);
+      }
+
+      /* Whether the browser has read all of `node`: it has, once it's read anything after it */
+      function parsed(node) {
+        if (document.readyState !== 'loading') return true;
+        for (; node && node !== document.body; node = node.parentNode) {
+          if (node.nextSibling) return true;
+        }
+        return false;
+      }
+
+      function translateQueued() {
+        queued = queued.filter(function (el) {
+          if (!parsed(el)) return true;
+          done.add(el);
+          RULES.forEach(function (rule) {
+            if (el.matches(rule[0])) rule[1](el);
+          });
+          return false;
+        });
+      }
+
+      /* The window title on the tabs: "Categories | NULL's (Dev) Blog" */
+      if (ui && TAB_PAGE) {
+        var tab = document.title.split(' | ')[0];
+        var tabName = translated(tab, ['tabs']);
+        if (tabName) document.title = tabName + document.title.slice(tab.length);
+      }
+
       function scan(node) {
         var el = node.nodeType === 1 ? node : node.parentElement;
         if (!el) return;
-        var link = el.closest('a[href]');
-        if (link) localize(link);
-        el.querySelectorAll('a[href]').forEach(localize);
-        if (el.matches('.lang-switch-home [data-lang]')) markActive(el);
-        el.querySelectorAll('.lang-switch-home [data-lang]').forEach(markActive);
+        if (localizePosts) {
+          var link = el.closest('a[href]');
+          if (link) localize(link);
+          el.querySelectorAll('a[href]').forEach(localize);
+          if (el.matches('.lang-switch-home [data-lang]')) markActive(el);
+          el.querySelectorAll('.lang-switch-home [data-lang]').forEach(markActive);
+        }
+        if (ui) {
+          var hit = el.closest(RULE_SELECTOR);
+          if (hit) queue(hit);
+          if (node.nodeType === 1) el.querySelectorAll(RULE_SELECTOR).forEach(queue);
+        }
       }
 
-      /* Change links while the page is parsed, before it's drawn; then once more
-         when it's complete. Also covers content added later, like search results. */
+      /* Change the page while it's read, before it's drawn; then once more when it's
+         all read, before Chirpy's scripts run. Also covers what's added later, like
+         search results. */
       new MutationObserver(function (records) {
         records.forEach(function (record) {
           record.addedNodes.forEach(scan);
         });
+        if (ui) translateQueued();
       }).observe(document.documentElement, { childList: true, subtree: true });
 
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('readystatechange', function () {
+        if (document.readyState !== 'interactive') return;
         scan(document.body);
+        if (ui) translateQueued();
       });
     })();
   </script>
@@ -212,6 +580,23 @@
 
 {%- if page.layout == 'post' %}
   <style>
+    /* Where a heading lands when it's picked in the TOC. tocbot highlights the
+       last heading that's within 32px (+10) of the top on wide screens and 48px
+       (+10) on narrow ones, so Chirpy leaves 3.5rem above headings, and 2rem on
+       wide screens above the h2-h4 its TOC lists. h1, h5 and h6 are in the TOC
+       now too: give them the same, or a click on one lands it 56px down and
+       highlights the heading before it. h6 has no margin at all in Chirpy. */
+    .content h6 {
+      scroll-margin-top: 3.5rem;
+    }
+    @media (min-width: 1200px) {
+      .content h1,
+      .content h5,
+      .content h6 {
+        scroll-margin-top: 2rem;
+      }
+    }
+
     /* The TOC popup (narrow screens) indents H2-H4 by level; its TOC also lists
        H1 (flush left), H5 and H6 now, so indent those last two the same way. */
     #toc-popup .node-name--H5 {
