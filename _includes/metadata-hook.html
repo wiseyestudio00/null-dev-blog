@@ -3,6 +3,8 @@
   Shows posts in the reader's language, using what _plugins/translations.rb provides:
   `site.data.post_translations` (every translated post) and `page.translations`
   (the versions of this post).
+
+  At the end: H5/H6 indents for the TOC popup (see _plugins/toc-all-headings.rb).
 {%- endcomment -%}
 {%- if site.data.post_translations.size > 0 -%}
   {%- assign current_lang = page.lang | default: site.lang -%}
@@ -207,3 +209,16 @@
     })();
   </script>
 {%- endif -%}
+
+{%- if page.layout == 'post' %}
+  <style>
+    /* The TOC popup (narrow screens) indents H2-H4 by level; its TOC also lists
+       H1 (flush left), H5 and H6 now, so indent those last two the same way. */
+    #toc-popup .node-name--H5 {
+      padding-left: 4.5rem;
+    }
+    #toc-popup .node-name--H6 {
+      padding-left: 5.625rem;
+    }
+  </style>
+{%- endif %}

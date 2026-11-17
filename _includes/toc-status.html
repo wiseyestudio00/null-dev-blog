@@ -1,0 +1,20 @@
+{% comment %}
+  Determine TOC state and return it through variable "enable_toc"
+
+  Overrides Chirpy's toc-status.html (7.6.0), which only turns the TOC on when the
+  post has an h2 or h3. This one looks for every heading level, so posts whose
+  sections are all `#` get a TOC too (see _plugins/toc-all-headings.rb).
+{% endcomment %}
+
+{% assign enable_toc = false %}
+{% if site.toc and page.toc %}
+  {% if page.content contains '<h1'
+    or page.content contains '<h2'
+    or page.content contains '<h3'
+    or page.content contains '<h4'
+    or page.content contains '<h5'
+    or page.content contains '<h6'
+  %}
+    {% assign enable_toc = true %}
+  {% endif %}
+{% endif %}
